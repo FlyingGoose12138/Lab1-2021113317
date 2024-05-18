@@ -7,37 +7,16 @@ import java.util.Set;
 public class BridgeWordFinder {
     public static void findBridgeWords(Map<String, Map<String, Integer>> adjacencyList, String word1, String word2) {
         // 检查 word1 和 word2 是否在图中出现
-        boolean word1InGraph = adjacencyList.containsKey(word1);
-        if(!word1InGraph){
-            for (Map<String, Integer> innerMap : adjacencyList.values()) {
-                if (innerMap.containsKey(word1)) {
-                    word1InGraph = true;
-                    break;
-                }
-            }
-        }
-
-        boolean word2InGraph = adjacencyList.containsKey(word2);
-        if(!word2InGraph) {
-            for (Map<String, Integer> innerMap : adjacencyList.values()) {
-                if (innerMap.containsKey(word2)) {
-                    word2InGraph = true;
-                    break;
-                }
-            }
-        }
-        if (!word1InGraph && !word2InGraph) {
-            System.out.println("Neither \"" + word1 + "\" nor \"" + word2 + "\" is in the graph!");
+        if (!adjacencyList.containsKey(word1) && !adjacencyList.containsKey(word2)) {
+            System.out.println("Neither \"" + word1 + "\" nor \"" + word2 +"\" is in the graph!");
             return;
-        } else if (!word1InGraph) {
-            System.out.println("No \"" + word1 + "\" in the graph!");
+        } else if (!adjacencyList.containsKey(word1)) {
+            System.out.println("No \"" + word1 +  "\" in the graph!");
             return;
-        } else if (!word2InGraph) {
+        } else if (!adjacencyList.containsKey(word2)) {
             System.out.println("No \"" + word2 + "\" in the graph!");
             return;
         }
-
-
 
         // 查找桥接词
         boolean foundBridge = false;

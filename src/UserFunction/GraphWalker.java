@@ -1,5 +1,6 @@
 package UserFunction;
 
+import java.nio.file.Paths;
 import java.util.*;
 import java.io.*;
 public class GraphWalker {
@@ -34,7 +35,7 @@ public class GraphWalker {
         }
         String current = keys.get(random.nextInt(keys.size()));
         visitedNodes.add(current);
-
+        System.out.println("Random walk: ");
         // 随机游走直到出现重复的边或者没有出边
         while (true) {
             if (!adjacencyList.containsKey(current) || adjacencyList.get(current).isEmpty()) {
@@ -52,13 +53,14 @@ public class GraphWalker {
             visitedNodes.add(nextNode);
             current = nextNode;
             if(flag){
-                System.out.println("Visited node: " + nextNode);
+                System.out.print(nextNode+" ");
             }
             else if (interactive) {
-                System.out.println("Visited node: " + nextNode);
+                System.out.println(nextNode+" ");
                 System.out.println("Press Enter to continue or 'c' to exit interactive mode:");
                 String input = scanner.nextLine();
                 if ("c".equalsIgnoreCase(input)) {
+                    interactive = false;
                     break;
                 }
             }
@@ -66,13 +68,14 @@ public class GraphWalker {
 
         // 输出遍历的节点到文件
         writeFile(visitedNodes);
+        return;
     }
 
     private void writeFile(List<String> visitedNodes) throws IOException {
         File file = new File("random_walk.txt");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             for (String node : visitedNodes) {
-                writer.write(node + " ");
+                writer.write(node + "\n");
             }
         }
     }

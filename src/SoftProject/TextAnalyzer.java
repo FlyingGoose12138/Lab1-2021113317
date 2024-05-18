@@ -7,32 +7,36 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TextAnalyzer {
-
     public static Map<String, Map<String, Integer>> analyzeText(String filePath) {
         Map<String, Map<String, Integer>> adjacencyList = new HashMap<>();
-        StringBuilder allText = new StringBuilder();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            StringBuilder contentBuilder = new StringBuilder();
             String line;
+
+            // 读取文件的所有行，并将其连接到一个字符串中，换行符替换为空格
             while ((line = br.readLine()) != null) {
-                // 删除特殊字符，并转换为小写
-                line = line.replaceAll("[^a-zA-Z\\s]", "").toLowerCase();
-                allText.append(line).append(" ");
+                contentBuilder.append(line).append(" ");
+            }
+
+            // 获取完整的内容并进行处理
+            String content = contentBuilder.toString();
+            content = content.replaceAll("[^a-zA-Z\\s]", "").toLowerCase().trim();
+            String[] words = content.split("\\s+");
+
+            // 更新邻接表
+            for (int i = 0; i < words.length - 1; i++) {
+                String source = words[i];
+                String destination = words[i + 1];
+
+                if (!adjacencyList.containsKey(source)) {
+                    adjacencyList.put(source, new HashMap<>());
+                }
+                Map<String, Integer> neighbors = adjacencyList.get(source);
+                neighbors.put(destination, neighbors.getOrDefault(destination, 0) + 1);
             }
         } catch (IOException e) {
             System.out.println("An error occurred while reading the file: " + e.getMessage());
-            return adjacencyList;
-        }
-
-        // 分割整个文本为单词数组
-        String[] words = allText.toString().trim().split("\\s+");
-        for (int i = 0; i < words.length - 1; i++) {
-            String source = words[i];
-            String destination = words[i + 1];
-
-            // 更新邻接表
-            adjacencyList.computeIfAbsent(source, k -> new HashMap<>())
-                    .merge(destination, 1, Integer::sum);
         }
 
         return adjacencyList;
