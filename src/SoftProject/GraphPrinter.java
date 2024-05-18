@@ -12,7 +12,7 @@ public class GraphPrinter {
 
         String dotFilePath = currentDir + File.separator + "graph.dot";
         String pngFilePath = currentDir + File.separator + "graph.png";
-
+        System.out.println(dotFilePath);
         // 生成 DOT 代码
         StringBuilder dotCode = new StringBuilder();
         dotCode.append("digraph G {\n");

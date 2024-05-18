@@ -49,7 +49,7 @@ public class UserInputHandler {
 
                     try {
                         walker.randomWalk();
-                        System.out.println("Random walk completed and written to file.");
+                        System.out.println("\nRandom walk completed and written to file.");
                     } catch (IOException e) {
                         System.out.println("Error writing to file: " + e.getMessage());
                     }

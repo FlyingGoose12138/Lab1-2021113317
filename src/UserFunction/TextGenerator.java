@@ -23,27 +23,8 @@ public class TextGenerator {
             generatedText.append(currentWord).append(" ");
 
             // 检查当前单词和下一个单词是否有桥接词
-            // 获取桥接词
-            boolean word1InGraph = adjacencyList.containsKey(currentWord);
-            if(!word1InGraph){
-                for (Map<String, Integer> innerMap : adjacencyList.values()) {
-                    if (innerMap.containsKey(currentWord)) {
-                        word1InGraph = true;
-                        break;
-                    }
-                }
-            }
-
-            boolean word2InGraph = adjacencyList.containsKey(nextWord);
-            if(!word2InGraph) {
-                for (Map<String, Integer> innerMap : adjacencyList.values()) {
-                    if (innerMap.containsKey(nextWord)) {
-                        word2InGraph = true;
-                        break;
-                    }
-                }
-            }
-            if (word1InGraph&&word2InGraph) {
+                // 获取桥接词
+            if (adjacencyList.containsKey(currentWord) && adjacencyList.containsKey(nextWord)) {
                 String bridgeWord = getBridgeWord(adjacencyList, currentWord, nextWord);
                 if (!bridgeWord.isEmpty()) {
                     // 插入桥接词
