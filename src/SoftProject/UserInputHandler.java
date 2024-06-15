@@ -6,8 +6,10 @@ import UserFunction.GraphWalker;
 import UserFunction.TextGenerator;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 public class UserInputHandler {
     public static void handleUserInput(Map<String, Map<String, Integer>> adjacencyList) {
@@ -31,7 +33,12 @@ public class UserInputHandler {
             switch (choice) {
                 case 1:
                     // 查询连接词
-                    queryBridgeWords(adjacencyList);
+                    System.out.print("Enter the first word: ");
+                    String word1 = scanner.next();
+                    System.out.print("Enter the second word: ");
+                    String word2 = scanner.next();
+                    String result = queryBridgeWords(adjacencyList,word1, word2);
+                    System.out.println(result);
                     break;
                 case 2:
                     GraphPrinter.printAdjacencyList(adjacencyList);
@@ -67,34 +74,61 @@ public class UserInputHandler {
 
     }
 
-    private static void queryBridgeWords(Map<String, Map<String, Integer>> adjacencyList) {
-        // 读取用户输入的两个单词
-        Scanner scanner = new Scanner(System.in);
-        String word1, word2;
+    public static String queryBridgeWords(Map<String, Map<String, Integer>> adjacencyList, String word1, String word2) {
+        // 检查单词是否合法
+        if (!word1.matches("[a-zA-Z]+")) {
+            return "The word1 contains illegal characters. Please enter again.";
+        } else if (!word2.matches("[a-zA-Z]+")) {
+            return "The word2 contains illegal characters. Please enter again.";
+        }
 
-        // 获取并检查第一个单词
-        do {
-            System.out.print("Please enter the first word: ");
-            word1 = scanner.next();
-            if (isValidWord(word1)) {
-                System.out.println("The word contains illegal characters. Please enter again.");
+        // 检查单词是否相同
+        if (word1.equals(word2)) {
+            return "Word1 and word2 can’t be same!";
+        }
+
+        // 检查邻接表输入
+        if (adjacencyList == null) {
+            return "Lack of adjacencyList!";
+        } else if (adjacencyList.isEmpty()) {
+            return "Lack of adjacencyList!";
+        }
+
+        // 检查图中单词是否存在
+        if (!adjacencyList.containsKey(word1)) {
+            return "No \"" + word1 + "\" in the graph!";
+        } else if (!adjacencyList.containsKey(word2)) {
+            return "No \"" + word2 + "\" in the graph!";
+        }
+
+        // 查找桥接词
+        boolean foundBridge = false;
+        Set<String> bridgeWords = new HashSet<>();
+        if (adjacencyList.get(word1) != null) {
+            for (String bridgeWord : adjacencyList.get(word1).keySet()) {
+                if (adjacencyList.containsKey(bridgeWord) && adjacencyList.get(bridgeWord).containsKey(word2)) {
+                    foundBridge = true;
+                    bridgeWords.add(bridgeWord);
+                }
             }
-        } while (isValidWord(word1));
+        }
 
-// Get and check the second word
-        do {
-            System.out.print("Please enter the second word: ");
-            word2 = scanner.next();
-            if (isValidWord(word2)) {
-                System.out.println("The word contains illegal characters. Please enter again.");
+        // 输出结果
+        if (!foundBridge) {
+            return "No bridge words from \"" + word1 + "\" to \"" + word2 + "\"!";
+        } else {
+            StringBuilder result = new StringBuilder();
+            for (String bridgeWord : bridgeWords) {
+                result.append("\"").append(bridgeWord).append("\", ");
             }
-        } while (isValidWord(word2));
+            result.setLength(result.length() - 2); // 移除最后一个逗号和空格
 
-// Output the query result
-        System.out.println("Querying bridge words...");
-        BridgeWordFinder.findBridgeWords(adjacencyList,word1,word2);
-
-        //
+            if (bridgeWords.size() == 1) {
+                return "The bridge word from \"" + word1 + "\" to \"" + word2 + "\" is: " + result + ".";
+            } else {
+                return "The bridge words from \"" + word1 + "\" to \"" + word2 + "\" are: " + result + ".";
+            }
+        }
     }
 
     private static boolean isValidWord(String word) {
