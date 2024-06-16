@@ -49,7 +49,13 @@ public class UserInputHandler {
                     break;
                 case 4:
                     // 计算最短路径
-                    GraphPathFinder.calcShortestPath(adjacencyList);
+                    System.out.print("Enter the first word: ");
+                    String firstWord = scanner.next();
+                    System.out.print("Please enter the second word (or press Enter to skip): ");
+                    scanner.nextLine();
+                    String endWord = scanner.nextLine();
+                    String calResult = GraphPathFinder.calcShortestPath(adjacencyList,firstWord, endWord);
+                    System.out.println(calResult);
                     break;
                 case 5:
                     GraphWalker walker = new GraphWalker(adjacencyList);
