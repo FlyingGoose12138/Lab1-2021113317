@@ -1,6 +1,4 @@
 digraph G {
-  ;
-   -> in [label="1"];
   no;
   no -> one [label="1"];
   worlds;
@@ -24,16 +22,18 @@ digraph G {
   and -> their [label="1"];
   of;
   of -> the [label="1"];
+  revealed;
+  revealed -> secrets [label="1"];
   where;
   where -> no [label="1"];
   boldly;
   boldly -> going [label="1"];
   place;
   place -> within [label="1"];
+  galaxy;
+  galaxy -> explorers [label="2"];
   civilizations;
   civilizations -> and [label="1"];
-  galaxy;
-  galaxy -> explorers [label="1"];
   they;
   they -> encountered [label="1"];
   they -> sought [label="1"];
@@ -59,6 +59,8 @@ digraph G {
   understand -> the [label="1"];
   mysteries;
   mysteries -> and [label="1"];
+  sought;
+  sought -> to [label="1"];
   cosmos;
   cosmos -> and [label="1"];
   seeking;
@@ -71,6 +73,8 @@ digraph G {
   opportunities -> as [label="1"];
   expanse;
   expanse -> of [label="1"];
+  strange;
+  strange -> new [label="1"];
   each;
   each -> journey [label="1"];
   gone;
@@ -84,6 +88,10 @@ digraph G {
   as;
   as -> galaxy [label="1"];
   as -> they [label="1"];
+  territories;
+  territories -> seeking [label="1"];
+  wonders;
+  wonders -> boldly [label="1"];
   explorers;
   explorers -> they [label="1"];
   explorers -> ventured [label="1"];
